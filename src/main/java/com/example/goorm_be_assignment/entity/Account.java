@@ -1,8 +1,11 @@
 package com.example.goorm_be_assignment.entity;
 
+import com.example.goorm_be_assignment.model.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import java.time.LocalDate;
@@ -31,7 +34,8 @@ public class Account {
     LocalDateTime createAt;
     @Column
     String email;
+    @Enumerated(EnumType.STRING)
     @Column
-    Integer role;
+    Role role;
 
 }

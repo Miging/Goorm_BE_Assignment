@@ -1,0 +1,25 @@
+
+//회원가입
+POST localhost:8080/users/signup
+Content-Type: application/json
+
+{
+  "id": "dnfldpden",
+  "name": "송민혁",
+  "pw": "dnfldpden32",
+  "birth": "2001-10-30",
+  "email": "dnfldpden@naver.com",
+  "isAdmin": true
+}
+
+###
+POST localhost:8080/users/login
+Content-Type: application/json
+
+{
+  "id": "dnfldpden",
+  "pw": "dnfldpden32"
+}
+
+###
+

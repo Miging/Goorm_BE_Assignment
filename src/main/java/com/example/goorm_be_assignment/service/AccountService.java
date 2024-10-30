@@ -2,6 +2,7 @@ package com.example.goorm_be_assignment.service;
 
 import com.example.goorm_be_assignment.dto.AccountForm;
 import com.example.goorm_be_assignment.entity.Account;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.goorm_be_assignment.repository.AccountRepository;
@@ -15,5 +16,8 @@ public class AccountService {
         //먼저
         Account entity=form.toEntity();
         return accountRepository.save(entity);
+    }
+    public Account login(String id, String pw){
+        return accountRepository.findByIdAndPw(id, pw).orElse(null);
     }
 }

@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.example.goorm_be_assignment.dto.AccountForm;
 import com.example.goorm_be_assignment.entity.Account;
+import com.example.goorm_be_assignment.model.Role;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +40,13 @@ class AccountServiceTest {
         String id="testid";
         String pw="testpw";
         LocalDate birth=LocalDate.of(2001,3,24);
-        LocalTime createAt= LocalTime.now();
+        LocalDateTime createAt= LocalDateTime.now();
         String email="test@naver.com";
-        Integer role=0;
+        Boolean isAdmin=true;
 
-        AccountForm dto=new AccountForm(name,id,pw,birth,createAt,email,role);
-        Account expected=new Account(name,id,pw,birth,createAt,email,role);
+        Account expected=new Account(name,id,pw,birth,createAt,email, Role.ROLE_ADMIN);
         //2. 실제 데이터 세팅
+        AccountForm dto=new AccountForm(name,id,pw,birth,createAt,email,isAdmin);
         Account account= accountService.create(dto);
         //3. 검증
         assertEquals(expected,account);
