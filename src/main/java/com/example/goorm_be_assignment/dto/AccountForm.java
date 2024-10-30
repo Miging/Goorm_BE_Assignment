@@ -11,8 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class AccountForm {
-    String name;
     String id;
+    String name;
     String pw;
     LocalDate birth;
     LocalDateTime createAt;

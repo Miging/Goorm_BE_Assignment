@@ -42,14 +42,19 @@ class AccountServiceTest {
         LocalDate birth=LocalDate.of(2001,3,24);
         LocalDateTime createAt= LocalDateTime.now();
         String email="test@naver.com";
-        Boolean isAdmin=true;
+        Boolean isAdmin=false;
 
-        Account expected=new Account(name,id,pw,birth,createAt,email, Role.ROLE_ADMIN);
+        Account expected=new Account(name,id,pw,birth,createAt,email, Role.ROLE_USER);
         //2. 실제 데이터 세팅
         AccountForm dto=new AccountForm(name,id,pw,birth,createAt,email,isAdmin);
         Account account= accountService.create(dto);
         //3. 검증
-        assertEquals(expected,account);
+        assertEquals(expected.getName(), account.getName());
+        assertEquals(expected.getId(), account.getId());
+        assertEquals(expected.getPw(), account.getPw());
+        assertEquals(expected.getBirth(), account.getBirth());
+        assertEquals(expected.getEmail(), account.getEmail());
+        assertEquals(expected.getRole(), account.getRole());
 
 
     }
@@ -63,12 +68,12 @@ class AccountServiceTest {
         String id="adminid";
         String pw="adminpw";
         LocalDate birth=LocalDate.of(2001,3,24);
-        LocalTime createAt= LocalTime.now();
+        LocalDateTime createAt= LocalDateTime.now();
         String email="admin@naver.com";
-        Integer role=1;
+        Boolean isAdmin=true;
 
-        AccountForm dto=new AccountForm(name,id,pw,birth,createAt,email,role);
-        Account expected=new Account(name,id,pw,birth,createAt,email,role);
+        AccountForm dto=new AccountForm(name,id,pw,birth,createAt,email,isAdmin);
+        Account expected=new Account(name,id,pw,birth,createAt,email,Role.ROLE_ADMIN);
         //2. 실제 데이터 세팅
         Account account=accountService.create(dto);
         //3. 검증
@@ -83,6 +88,9 @@ class AccountServiceTest {
         String ID="testid";
         String PW="testpw";
 
+        Account excpected=new Account();
+
+        Account account=accountService.login(ID,PW);
     }
 
     //관리자 로그인
