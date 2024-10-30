@@ -2,15 +2,21 @@ package com.example.goorm_be_assignment.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Account {
     @Id
     String id;
@@ -20,10 +26,12 @@ public class Account {
     String pw;
     @Column
     LocalDate birth;
-    @Column
-    LocalTime createAt;
+    @CreatedDate
+    @Column(updatable = false)
+    LocalDateTime createAt;
     @Column
     String email;
     @Column
     Integer role;
+
 }
