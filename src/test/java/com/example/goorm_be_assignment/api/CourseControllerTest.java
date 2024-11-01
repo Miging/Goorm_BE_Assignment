@@ -17,12 +17,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties.Registration.Acs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
 import static org.mockito.BDDMockito.given;
 
 
 @WebMvcTest(controllers = CourseController.class)
+@MockBean(JpaMetamodelMappingContext.class)
 public class CourseControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -31,6 +36,7 @@ public class CourseControllerTest {
     private CourseService courseService;
 
     @Test
+    @Transactional
     public void 강의목록_조회() throws Exception {
         List<Course> courses=new ArrayList<>();
         courses.add(new Course(null,"Math",4,"John",45,null,null));
@@ -39,20 +45,17 @@ public class CourseControllerTest {
         given(courseService.getCourses()).willReturn(courses);
 
 
-        mockMvc.perform(get("/courses")
+        mockMvc.perform(get("/course")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Math")))
-                .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].name").value("Math"))
-                .andExpect(jsonPath("$[0].rating").value(4))
-                .andExpect(jsonPath("$[0].instructor").value("John"))
-                .andExpect(jsonPath("$[0].duration").value(45))
-                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[0].time").value(4))
+                .andExpect(jsonPath("$[0].professor").value("John"))
+                .andExpect(jsonPath("$[0].capacity").value(45))
                 .andExpect(jsonPath("$[1].name").value("English"))
-                .andExpect(jsonPath("$[1].rating").value(5))
-                .andExpect(jsonPath("$[1].instructor").value("Henson"))
-                .andExpect(jsonPath("$[1].duration").value(50));
+                .andExpect(jsonPath("$[1].time").value(5))
+                .andExpect(jsonPath("$[1].professor").value("Henson"))
+                .andExpect(jsonPath("$[1].capacity").value(50));
     }
     @Test
     public void 강의목록_조회_에러_사용자_권한없음() throws Exception {
