@@ -4,8 +4,10 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import com.example.goorm_be_assignment.entity.Course;
+import com.example.goorm_be_assignment.service.CourseService;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
