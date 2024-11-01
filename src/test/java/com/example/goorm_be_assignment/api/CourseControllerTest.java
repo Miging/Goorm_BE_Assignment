@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.goorm_be_assignment.entity.Course;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +24,14 @@ public class CourseControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    //- id
-    //- 강좌명
-    //- 강의 시간
-    //- 담당 교수
-    //- 정원
+    @Autowired
+    private CourseService courseService;
+
     @Test
     public void 강의목록_조회() throws Exception {
         List<Course> courses=new ArrayList<>();
-        courses.add(new Course(1,"Math",4,"John",45));
-        courses.add(new Course(2,"English",5,"Henson",50));
+        courses.add(new Course(null,"Math",4,"John",45,null,null));
+        courses.add(new Course(null,"English",5,"Henson",50,null,null));
 
         given(courseService.getCourses()).willReturn(courses);
 
@@ -50,7 +49,7 @@ public class CourseControllerTest {
                 .andExpect(jsonPath("$[1].name").value("English"))
                 .andExpect(jsonPath("$[1].rating").value(5))
                 .andExpect(jsonPath("$[1].instructor").value("Henson"))
-                .andExpect(jsonPath("$[1].duration").value(50)););
+                .andExpect(jsonPath("$[1].duration").value(50)));
     }
     @Test
     public void 강의목록_조회_에러_사용자_권한없음() throws Exception {
