@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties.Registration.Acs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.BDDMockito.given;
@@ -26,7 +27,7 @@ public class CourseControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
+    @MockBean
     private CourseService courseService;
 
     @Test
@@ -39,7 +40,7 @@ public class CourseControllerTest {
 
 
         mockMvc.perform(get("/courses")
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Math")))
                 .andExpect(jsonPath("$[0].id").value(1))
@@ -51,7 +52,7 @@ public class CourseControllerTest {
                 .andExpect(jsonPath("$[1].name").value("English"))
                 .andExpect(jsonPath("$[1].rating").value(5))
                 .andExpect(jsonPath("$[1].instructor").value("Henson"))
-                .andExpect(jsonPath("$[1].duration").value(50)));
+                .andExpect(jsonPath("$[1].duration").value(50));
     }
     @Test
     public void 강의목록_조회_에러_사용자_권한없음() throws Exception {
@@ -59,8 +60,8 @@ public class CourseControllerTest {
         given(courseService.getCourses()).willThrow(new AccessDeniedException("권한이 없습니다"));
 
         mockMvc.perform(get("/courses")
-                .contentType(MediaType.APPLICATION_JSON)
-                .andExpect(status().isForbidden()));
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
     }
     @Test
     public void 강의목록_조회_에러_강의가_0개인경우() throws Exception {

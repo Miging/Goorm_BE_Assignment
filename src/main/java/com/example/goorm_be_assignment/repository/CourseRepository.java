@@ -4,7 +4,7 @@ import com.example.goorm_be_assignment.entity.Course;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
-public interface CourseRepository extends CrudRepository<Course, String> {
+public interface CourseRepository extends CrudRepository<Course, Long> {
 
     @Override
     List<Course> findAll();
